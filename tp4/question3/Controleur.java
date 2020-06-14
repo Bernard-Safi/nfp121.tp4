@@ -34,15 +34,15 @@ public class Controleur extends JPanel {
 
         setLayout(new GridLayout(2, 1));
         add(donnee);
-        donnee.addActionListener(null /* null est à remplacer */);
+        donnee.addActionListener(null);
         JPanel boutons = new JPanel();
         boutons.setLayout(new FlowLayout());
-        boutons.add(push);  push.addActionListener(null /* null est à remplacer */);
-        boutons.add(add);   add.addActionListener(null /* null est à remplacer */);
-        boutons.add(sub);   sub.addActionListener(null /* null est à remplacer */);
-        boutons.add(mul);   mul.addActionListener(null /* null est à remplacer */);
-        boutons.add(div);   div.addActionListener(null /* null est à remplacer */);
-        boutons.add(clear); clear.addActionListener(null /* null est à remplacer */);
+        boutons.add(push);  push.addActionListener(new pushOperation());
+        boutons.add(add);   add.addActionListener(new addOperation());
+        boutons.add(sub);   sub.addActionListener(new subOperation());
+        boutons.add(mul);   mul.addActionListener(new mulOperation());
+        boutons.add(div);   div.addActionListener(new divOperation());
+        boutons.add(clear); clear.addActionListener(new clearOperation());
         add(boutons);
         boutons.setBackground(Color.red);
         actualiserInterface();
@@ -50,6 +50,36 @@ public class Controleur extends JPanel {
 
     public void actualiserInterface() {
         // à compléter
+        //if pile is full you can't push anymore
+         if (pile.estPleine())
+            push.setEnabled(false);
+        //if pile is empty you can't clear , add , sum , mul , div
+        else if (pile.estVide()){
+            push.setEnabled(true);
+            clear.setEnabled(false);
+            add.setEnabled(false);
+            sub.setEnabled(false);
+            mul.setEnabled(false);
+            div.setEnabled(false);
+        } 
+        //ife pile has 1 element you can't add , sum , mul , div
+        else if (pile.taille() == 1){
+            push.setEnabled(true);
+            clear.setEnabled(true);
+            add.setEnabled(false);
+            sub.setEnabled(false);
+            mul.setEnabled(false);
+            div.setEnabled(false);
+        } 
+        // else you can do everything so all are enabled
+        else {
+            push.setEnabled(true);
+            clear.setEnabled(true);
+            add.setEnabled(true);
+            sub.setEnabled(true);
+            mul.setEnabled(true);
+            div.setEnabled(true);
+        }
     }
 
     private Integer operande() throws NumberFormatException {
@@ -60,5 +90,113 @@ public class Controleur extends JPanel {
     // en cas d'exception comme division par zéro, 
     // mauvais format de nombre suite à l'appel de la méthode operande
     // la pile reste en l'état (intacte)
+    
+    private class pushOperation implements ActionListener {
+        public void actionPerformed (ActionEvent event){
+            try {
+                pile.empiler(operande());
+            }
+            catch (NumberFormatException exception){}
+            catch (PilePleineException exception){}
+
+            actualiserInterface();
+        }
+    }
+    
+    private class addOperation  implements ActionListener {
+        public void actionPerformed (ActionEvent event){
+            int number1 = 0, number2 = 0, result = 0;
+
+            try {
+                number1 = pile.depiler();
+                number2 = pile.depiler();
+                result = number1 + number2;
+                pile.empiler(result);
+            }
+            catch (PileVideException exception){}
+            catch (PilePleineException exception){}
+
+            actualiserInterface();
+        }
+    }
+    
+  
+    
+    private class subOperation  implements ActionListener {
+        public void actionPerformed (ActionEvent event){
+            int number1 = 0, number2 = 0, result = 0;
+
+            try {
+             
+                number1 = pile.depiler();
+                number2 = pile.depiler();
+                result = number1-number2;
+                pile.empiler(result);
+            }
+            catch (PileVideException exception){}
+            catch (PilePleineException exception){}
+
+            actualiserInterface();
+        }
+    }
+    
+    private class mulOperation  implements ActionListener {
+        public void actionPerformed (ActionEvent event){
+            int number1 = 0, number2 = 0, result = 0;
+
+            try {
+                number1 = pile.depiler();
+                number2 = pile.depiler();
+                result = number1 * number2;
+                pile.empiler(result);
+            }
+            catch (PileVideException exception){}
+            catch (PilePleineException exception){}
+
+            actualiserInterface();
+        }
+    }
+
+     private class divOperation  implements ActionListener {
+        public void actionPerformed (ActionEvent event){
+            int number1 = 0, number2 = 0, result = 0;
+
+            try {
+                number1 = pile.depiler();
+                number2 = pile.depiler();
+                // can't devide by 0 get them back to the pile
+                if (number1 == 0 ) {
+                    pile.empiler(number2);
+                    pile.empiler(number1);
+                }
+                else {
+                    result = number2 / number1;
+                    pile.empiler(result);
+                }
+            }
+            catch (PileVideException exception){}
+            catch (PilePleineException exception){}
+
+            actualiserInterface();
+        }
+    }
+    
+        private class clearOperation  implements ActionListener {
+        public void actionPerformed (ActionEvent event){
+            
+            while (!pile.estVide()){
+                try {
+                    pile.depiler();
+                }
+                catch (PileVideException exception){}
+            }
+
+            actualiserInterface();
+        }
+    }
+    
+    
+    
+    
 
 }

@@ -57,6 +57,8 @@ public class IHMCalculetteTest extends junit.framework.TestCase{
 
     public void test_IHMCalculette_addition() throws Exception{
         try{
+            
+              
             Container panel = f.getContentPane();
             Component[] components = panel.getComponents();
             assertEquals(" ce n'est pas l'IHM attendue ?", 2, components.length);
@@ -79,6 +81,7 @@ public class IHMCalculetteTest extends junit.framework.TestCase{
             assertTrue(" ce n'est pas l'IHM attendue ?", subComponents[4] instanceof JButton);// /
 
             empiler("15");
+            System.out.println("test"+etatPile.getText());
             assertTrue("empiler(15), en sortie != [15]","[15]".equals(etatPile.getText()));
             empiler("12");
             assertTrue("empiler(15),empiler(12) en sortie != [12, 15]","[12, 15]".equals(etatPile.getText()));
@@ -95,6 +98,7 @@ public class IHMCalculetteTest extends junit.framework.TestCase{
 
     public void test_IHMCalculette_soustraction() throws Exception{
         try{
+          
             Container panel = f.getContentPane();
             Component[] components = panel.getComponents();
             assertEquals(" ce n'est pas l'IHM attendue ?", 2, components.length);
@@ -125,8 +129,7 @@ public class IHMCalculetteTest extends junit.framework.TestCase{
             fail("exception inattendue ! " + e.getClass().getName());
         }
     }
-
-   
+       
 	
     public void test_IHMCalculette_MauvaisFormatDuNombre() throws Exception{
         try{

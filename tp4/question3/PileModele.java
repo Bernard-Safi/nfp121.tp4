@@ -17,15 +17,18 @@ public class PileModele<T> extends  java.util.Observable implements PileI<T> {
     public void empiler(T o) throws PilePleineException {
       pile.empiler(o);
       setChanged();
-      notifyObservers(o);
+      notifyObservers();
     }
 
     public T depiler() throws PileVideException {
-        return null;
+        T objetDepile = pile.depiler();
+        setChanged();
+        notifyObservers();
+        return objetDepile;
     }
 
     public T sommet() throws PileVideException {
-        return null;
+        return pile.sommet();
     }
 
     public int taille() {

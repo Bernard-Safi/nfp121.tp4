@@ -24,45 +24,75 @@ package question3;
  *          engagements, et suivi d'un appel à tearDown(), qui les détruit.
  */
 public class PileModeleTest extends junit.framework.TestCase {
-	// Définissez ici les variables d'instance nécessaires à vos engagements;
-	// Vous pouvez également les saisir automatiquement du présentoir
-	// à l'aide du menu contextuel "Présentoir --> Engagements".
-	// Notez cependant que ce dernier ne peut saisir les objets primitifs
-	// du présentoir (les objets sans constructeur, comme int, float, etc.).
+    // Définissez ici les variables d'instance nécessaires à vos engagements;
+    // Vous pouvez également les saisir automatiquement du présentoir
+    // à l'aide du menu contextuel "Présentoir --> Engagements".
+    // Notez cependant que ce dernier ne peut saisir les objets primitifs
+    // du présentoir (les objets sans constructeur, comme int, float, etc.).
+    
+    question3.tp3.PileI pile;
+    /**
+     * Constructeur de la classe-test PileModeleTest
+     */
+    public PileModeleTest() {
+    }
 
-	/**
-	 * Constructeur de la classe-test PileModeleTest
-	 */
-	public PileModeleTest() {
-	}
+    /**
+     * Met en place les engagements.
+     * 
+     * Méthode appelée avant chaque appel de méthode de test.
+     */
+    protected void setUp() // throws java.lang.Exception
+    {
+         pile = new question3.tp3.Pile2 ();
 
-	/**
-	 * Met en place les engagements.
-	 * 
-	 * Méthode appelée avant chaque appel de méthode de test.
-	 */
-	protected void setUp() // throws java.lang.Exception
-	{
-		// Initialisez ici vos engagements
+    }
 
-	}
+    /**
+     * Supprime les engagements
+     * 
+     * Méthode appelée après chaque appel de méthode de test.
+     */
+    protected void tearDown() // throws java.lang.Exception
+    {
+        // Libérez ici les ressources engagées par setUp()
+    }
 
-	/**
-	 * Supprime les engagements
-	 * 
-	 * Méthode appelée après chaque appel de méthode de test.
-	 */
-	protected void tearDown() // throws java.lang.Exception
-	{
-		// Libérez ici les ressources engagées par setUp()
-	}
+    /**
+     * Il ne vous reste plus qu'à définir une ou plusieurs méthodes de test. Ces
+     * méthodes doivent vérifier les résultats attendus à l'aide d'assertions
+     * assertTrue(<boolean>). Par convention, leurs noms devraient débuter par
+     * "test". Vous pouvez ébaucher le corps grâce au menu contextuel
+     * "Enregistrer une méthode de test".
+     */
+    
+        public void testPileCapacite() {
+        PileModele p = new PileModele(pile);
+        assertEquals(pile.capacite(), 10);
+    }
 
-	/**
-	 * Il ne vous reste plus qu'à définir une ou plusieurs méthodes de test. Ces
-	 * méthodes doivent vérifier les résultats attendus à l'aide d'assertions
-	 * assertTrue(<boolean>). Par convention, leurs noms devraient débuter par
-	 * "test". Vous pouvez ébaucher le corps grâce au menu contextuel
-	 * "Enregistrer une méthode de test".
-	 */
+    public void testPileVide() throws Exception {
+        PileModele p = new PileModele(pile);
+        assertEquals(true, p.estVide());
+    }
+
+    public void testPilePleine() throws Exception {
+        PileModele p = new PileModele(pile);
+        for(int i=0;i<10;i++){
+        p.empiler(300);
+    }
+        assertEquals(true, p.estPleine());
+        assertEquals(p.taille(), p.capacite());
+    }
+
+    public void testPileSommet() throws Exception {
+        PileModele p = new PileModele(pile);
+        p.empiler(new Integer(49));
+        assertEquals( new Integer(49), p.sommet());
+        p.empiler(new Integer(50));
+        assertEquals(" depiler ?? ", new Integer(50), p.sommet());
+    }
+    
+
 
 }
